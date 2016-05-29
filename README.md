@@ -9,6 +9,13 @@ In order to build ensure you have docker-toolbox installed and simple run the bu
 Standard build: ```mvn clean install```
 Build docker container: ```mvn clean package docker:build```
 
+**Running container**
+
+There is already a docker container available on Docker hub: https://hub.docker.com/r/renarj/mqtt/
+In order to run it use the following command:
+```docker run -d -p 1883:1883 renarj/mqtt:latest```
+
+
 ## Technical notes
 The dockerfile is contained in the src\main\resources and relies on the spring-boot repackage stap in the maven build to create a single jar file.
 
