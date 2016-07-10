@@ -17,8 +17,7 @@ import java.util.Properties;
 public class MoquetteServer {
     private static final Logger LOG = LoggerFactory.getLogger(MoquetteServer.class);
 
-
-    @Value("${mqtt.port:1883}")
+    @Value("${mqtt.serverport:1883}")
     private int serverPort;
 
     @Value("${mqtt.host:0.0.0.0}")
@@ -31,6 +30,8 @@ public class MoquetteServer {
     private MemoryConfig config;
 
     public void start() throws IOException {
+        LOG.info("Starting MQTT on host: {} and port: {} with websocket port: {}", host, serverPort, websocketPort);
+
         config = new MemoryConfig(new Properties());
         config.setProperty("port", Integer.toString(serverPort));
         config.setProperty("websocket_port", Integer.toString(websocketPort));
@@ -38,7 +39,6 @@ public class MoquetteServer {
         config.setProperty("authenticator_class", SpringAuthenticationWrapper.class.getName());
         config.setProperty("authorizator_class", SpringAuthorizationWrapper.class.getName());
 
-        LOG.info("Starting Moquette on host: {} port: {} websocket: {}", host, serverPort, websocketPort);
         server = new Server();
         server.startServer(config);
         LOG.info("Moquette started successfully");
