@@ -1,5 +1,6 @@
 package com.oberasoftware.moquette.wrapper;
 
+import io.moquette.BrokerConstants;
 import io.moquette.server.Server;
 import io.moquette.server.config.MemoryConfig;
 import org.slf4j.Logger;
@@ -36,6 +37,7 @@ public class MoquetteServer {
         config.setProperty("port", Integer.toString(serverPort));
         config.setProperty("websocket_port", Integer.toString(websocketPort));
         config.setProperty("host", host);
+        config.setProperty(BrokerConstants.ALLOW_ANONYMOUS_PROPERTY_NAME, "true");
         config.setProperty("authenticator_class", SpringAuthenticationWrapper.class.getName());
         config.setProperty("authorizator_class", SpringAuthorizationWrapper.class.getName());
 

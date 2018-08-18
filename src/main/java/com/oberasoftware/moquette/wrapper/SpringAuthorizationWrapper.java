@@ -1,5 +1,6 @@
 package com.oberasoftware.moquette.wrapper;
 
+import io.moquette.spi.impl.subscriptions.Topic;
 import io.moquette.spi.security.IAuthorizator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,18 +14,6 @@ public class SpringAuthorizationWrapper implements IAuthorizator {
 
     private boolean securityEnabled = true;
 
-    @Override
-    public boolean canWrite(String s, String s1, String s2) {
-        IAuthorizator authorizator = getAuthorizer();
-        return authorizator == null || authorizator.canWrite(s, s1, s2);
-    }
-
-    @Override
-    public boolean canRead(String s, String s1, String s2) {
-        IAuthorizator authorizator = getAuthorizer();
-        return authorizator == null || authorizator.canRead(s, s1, s2);
-    }
-
     private IAuthorizator getAuthorizer() {
         if(securityEnabled) {
             try {
@@ -37,5 +26,17 @@ public class SpringAuthorizationWrapper implements IAuthorizator {
 
         //default is always null and disabled
         return null;
+    }
+
+    @Override
+    public boolean canWrite(Topic topic, String user, String client) {
+        IAuthorizator authorizator = getAuthorizer();
+        return authorizator == null || authorizator.canWrite(topic, user, client);
+    }
+
+    @Override
+    public boolean canRead(Topic topic, String user, String client) {
+        IAuthorizator authorizator = getAuthorizer();
+        return authorizator == null || authorizator.canRead(topic, user, client);
     }
 }

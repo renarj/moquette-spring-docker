@@ -14,12 +14,12 @@ public class SpringAuthenticationWrapper implements IAuthenticator {
     private boolean securityEnabled = true;
 
     @Override
-    public boolean checkValid(String s, byte[] bytes) {
+    public boolean checkValid(String clientId, String username, byte[] password) {
         if(securityEnabled) {
             try {
                 IAuthenticator authenticator = SpringContextProvider.getApplicationContext().getBean(IAuthenticator.class);
 
-                return authenticator.checkValid(s, bytes);
+                return authenticator.checkValid(clientId, username, password);
             } catch(BeansException e) {
                 LOG.info("Could not load a IAuthenticator bean, disabling authenticator security");
                 securityEnabled = false;
